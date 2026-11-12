@@ -1,2 +1,5 @@
 Vencord/
-hooks/50-venchrome.mjs
+# plugin hook links are local (see hooks/README.md)
+hooks/*
+!hooks/10-orion-quests.mjs
+!hooks/README.md
