@@ -14,4 +14,10 @@ The Vencord checkout lives in `Vencord/` (gitignored). Plugins hook in via `hook
 
 ## Linux
 
-Coming.
+Requires `git`, `pnpm`, `node`. Run:
+
+```bash
+./update-vencord.sh
+```
+
+After the build it deploys to Vesktop (`~/.config/vesktop`) and to `~/.config/Vencord/dist` for Discord (native or Flatpak), then tells you whether Discord still needs `pnpm inject` (with `sudo` for a system Flatpak). `VENCORD_SKIP_DEPLOY=1 ./update-vencord.sh` stops right after the build.

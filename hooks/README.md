@@ -1,10 +1,10 @@
 # Hooks
 
-`update-vencord.ps1` runs every file in this folder, in alphabetical order, after `pnpm install` and before `pnpm build`.
+`update-vencord.ps1` (Windows) and `update-vencord.sh` (Linux) run every file in this folder, in alphabetical order, after `pnpm install` and before `pnpm build`.
 
 - `*.mjs` - run with `node <hook> <vencordDir>` (cross-platform, preferred)
-- `*.ps1` - run with pwsh/powershell (Windows only)
-- `*.sh` - skipped on Windows (Linux installer only)
+- `*.ps1` - run with pwsh/powershell by the Windows installer, skipped on Linux
+- `*.sh` - run with bash by the Linux installer, skipped on Windows
 
 ## Contract
 
@@ -21,6 +21,7 @@ Plugin repos ship their own hook. Link it here (symlinks are resolved, so the ho
 New-Item -ItemType SymbolicLink -Path hooks\50-venchrome.mjs -Target C:\path\to\Venchrome\vencord-hook\50-venchrome.mjs
 ```
 ```bash
+# Linux
 ln -s /path/to/Venchrome/vencord-hook/50-venchrome.mjs hooks/50-venchrome.mjs
 ```
 
