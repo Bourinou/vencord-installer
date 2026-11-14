@@ -28,7 +28,7 @@ async function fail(msg) {
 // shell: true pour trouver pnpm.cmd sous Windows
 function run(cmd, args, opts = {}) {
     const quoted = args.map(a => (/[\s"]/.test(a) ? `"${a}"` : a));
-    return spawnSync(cmd, quoted, { stdio: "inherit", shell: true, ...opts });
+    return spawnSync([cmd, ...quoted].join(" "), { stdio: "inherit", shell: true, ...opts });
 }
 
 // Verifie que les dependances sont installees
