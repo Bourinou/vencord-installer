@@ -4,11 +4,13 @@ Generic Vencord (desktop, built from source) updater: clone/pull, `pnpm install`
 
 ## Windows
 
-Requires `node`; `git` (via winget) and `pnpm` (via npm) are installed if missing. Run:
+Requires only `node`. Run:
 
 ```bash
-.\update-vencord.ps1
+node update-vencord.mjs
 ```
+
+Missing `git` and `pnpm` are installed, and `pnpm` is upgraded to the version Vencord needs.
 
 The Vencord checkout lives in `Vencord/` (gitignored). Plugins hook in via `hooks/`, see [hooks/README.md](hooks/README.md). `orionQuests` ships built in.
 
