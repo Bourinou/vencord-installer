@@ -60,10 +60,11 @@ if (!existsSync(join(vencordDir, ".git"))) {
 
 const inVencord = { cwd: vencordDir };
 
-// Met pnpm a la version demandee par Vencord (packageManager)
+// Met a jour pnpm s'il est plus ancien que la version demandee par Vencord (packageManager)
 const wanted = JSON.parse(readFileSync(join(vencordDir, "package.json"), "utf8")).packageManager?.match(/^pnpm@([^+]+)/)?.[1];
 const current = spawnSync("pnpm --version", { shell: true, encoding: "utf8", cwd: root }).stdout?.trim();
-if (wanted && current !== wanted) {
+const older = (a, b) => a.localeCompare(b, undefined, { numeric: true }) < 0;
+if (wanted && current && older(current, wanted)) {
     say(`>> Mise a jour de pnpm (${current} -> ${wanted})...`, "cyan");
     if (run("pnpm", ["self-update", wanted], { cwd: root }).status !== 0) await fail("la mise a jour de pnpm a echoue.");
 }
