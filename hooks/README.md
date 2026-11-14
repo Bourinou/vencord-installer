@@ -1,6 +1,6 @@
 # Hooks
 
-`update-vencord.ps1` (Windows) and `update-vencord.sh` (Linux) run every file in this folder, in alphabetical order, after `pnpm install` and before `pnpm build`.
+`update-vencord.mjs` (Windows) and `update-vencord.sh` (Linux) run every file in this folder, in alphabetical order, after `pnpm install` and before `pnpm build`.
 
 - `*.mjs` - run with `node <hook> <vencordDir>` (cross-platform, preferred)
 - `*.ps1` - run with pwsh/powershell by the Windows installer, skipped on Linux

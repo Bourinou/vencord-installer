@@ -6,7 +6,7 @@ Generic Vencord (desktop, built from source) updater: clone/pull, `pnpm install`
 
 Requires `git`, `pnpm`, `node`. Run:
 
-```powershell
+```bash
 .\update-vencord.ps1
 ```
 
