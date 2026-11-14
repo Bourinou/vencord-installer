@@ -31,10 +31,19 @@ function run(cmd, args, opts = {}) {
     return spawnSync([cmd, ...quoted].join(" "), { stdio: "inherit", shell: true, ...opts });
 }
 
-// Verifie que les dependances sont installees
-for (const tool of ["git", "pnpm", "node"]) {
-    const probe = spawnSync(process.platform === "win32" ? "where" : "which", [tool], { stdio: "ignore" });
-    if (probe.status !== 0) await fail(`L'outil '${tool}' est introuvable, installe-le puis relance le script.`);
+// Installe les dependances manquantes (node est forcement la, il lance ce script)
+const has = tool => spawnSync("where", [tool], { stdio: "ignore" }).status === 0;
+const installers = {
+    git: ["winget", ["install", "--id", "Git.Git", "-e", "--silent", "--accept-package-agreements", "--accept-source-agreements"]],
+    pnpm: ["npm", ["install", "-g", "pnpm"]],
+};
+for (const [tool, [cmd, args]] of Object.entries(installers)) {
+    if (has(tool)) continue;
+    say(`>> ${tool} absent, installation (${cmd})...`, "cyan");
+    run(cmd, args);
+    // winget ne met pas a jour le PATH de ce processus
+    if (tool === "git") process.env.PATH += `;${process.env.ProgramFiles}\\Git\\cmd`;
+    if (!has(tool)) await fail(`L'installation de '${tool}' a echoue, installe-le puis relance le script.`);
 }
 
 const root = dirname(fileURLToPath(import.meta.url));
