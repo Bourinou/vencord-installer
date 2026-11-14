@@ -1,6 +1,6 @@
 // Windows updater: run with `node update-vencord.mjs` (no PowerShell execution policy, no SmartScreen).
 import { spawnSync } from "node:child_process";
-import { existsSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, dirname, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline/promises";
@@ -59,6 +59,14 @@ if (!existsSync(join(vencordDir, ".git"))) {
 }
 
 const inVencord = { cwd: vencordDir };
+
+// Met pnpm a la version demandee par Vencord (packageManager)
+const wanted = JSON.parse(readFileSync(join(vencordDir, "package.json"), "utf8")).packageManager?.match(/^pnpm@([^+]+)/)?.[1];
+const current = spawnSync("pnpm --version", { shell: true, encoding: "utf8", cwd: root }).stdout?.trim();
+if (wanted && current !== wanted) {
+    say(`>> Mise a jour de pnpm (${current} -> ${wanted})...`, "cyan");
+    if (run("pnpm", ["self-update", wanted], { cwd: root }).status !== 0) await fail("la mise a jour de pnpm a echoue.");
+}
 
 // pnpm install
 say(">> pnpm install...", "cyan");
